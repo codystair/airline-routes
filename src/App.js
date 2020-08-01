@@ -6,9 +6,9 @@ class App extends Component {
   render() {
     const rowElements = DATA.routes.map((route, i) => {
       return <tr row-id={i}>
-               <td>{route.airline}</td>
-               <td>{route.src}</td>
-               <td>{route.dest}</td>
+               <td>{DATA.getAirlineById(route.airline)}</td>
+               <td>{DATA.getAirportByCode(route.src)}</td>
+               <td>{DATA.getAirportByCode(route.dest)}</td>
              </tr>
     });
 
