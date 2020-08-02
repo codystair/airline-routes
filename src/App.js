@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 import './App.css';
 import DATA from './data.js';
+import Table from './components/Table.js'
 
 class App extends Component {
+  formatValue(property, value) {
+    if (property === 'airline') {
+      return DATA.getAirlineById(value).name;
+    } else {
+      return DATA.getAirportByCode(value).name;
+    }
+  }
+
   render() {
-    const rowElements = DATA.routes.map((route, i) => {
-      return <tr row-id={i}>
-               <td>{DATA.getAirlineById(route.airline)}</td>
-               <td>{DATA.getAirportByCode(route.src)}</td>
-               <td>{DATA.getAirportByCode(route.dest)}</td>
-             </tr>
-    });
+    const columns = [
+      {name: 'Airline', property: 'airline'},
+      {name: 'Source Airport', property: 'src'},
+      {name: 'Destination Airport', property: 'dest'},
+    ];
 
     return (
       <div className="app">
@@ -18,16 +25,12 @@ class App extends Component {
           <h1 className="title">Airline Routes</h1>
         </header>
         <section>
-          <table className="routes-table">
-            <thead>
-              <th>Airline</th>
-              <th>Source Airport</th>
-              <th>Destination Airport</th>
-            </thead>
-            <tbody>
-              {rowElements}
-            </tbody>
-          </table>
+          <Table 
+            className="routes-table"
+            columns={columns}
+            rows={DATA.routes}
+            format={this.formatValue}
+          />
         </section>
       </div>
     );
