@@ -8,7 +8,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filteredRoutes: DATA.routes,
+      airline: 'all',
+      airport: 'all',
     };
   }
   
@@ -20,20 +21,24 @@ class App extends Component {
     }
   }
 
-  handleChange = (event) => {
-    if (event.target.value === 'all') {
-      this.setState({
-        filteredRoutes: DATA.routes, 
-      });
-      return;
+  airlineSelected = (value) => {
+    if (value !== 'all') {
+      value = Number(value);
     }
 
-    const airlineId = Number(event.target.value);
-    this.setState({
-      filteredRoutes: DATA.routes.filter(route => {
-        return route.airline === airlineId
-      }),
-    });
+    this.setState({airline: value});
+  }
+
+  airportSelected = (value) => {
+    this.setState({airport: value})
+  }
+
+  routeHasCurrentAirline = (route) => {
+    return route.airline === this.state.airline || this.state.airline === 'all';
+  }
+
+  routeHasCurrentAirport = (route) => {
+    return route.src === this.state.airport || route.dest === this.state.airport || this.state.airport === 'all';
   }
 
   render() {
@@ -43,9 +48,12 @@ class App extends Component {
       {name: 'Destination Airport', property: 'dest'},
     ];
 
-    const filteredAirlines = DATA.airlines.map((airline) => {
-      return <option key={airline.id} value={airline.id}>{airline.name}</option>
+    const filteredRoutes = DATA.routes.filter(route => {
+      return this.routeHasCurrentAirline(route) && this.routeHasCurrentAirport(route);
     });
+
+    const filteredAirlines = DATA.airlines;
+    const filteredAirports = DATA.airports;
 
     return (
       <div className="app">
@@ -60,14 +68,23 @@ class App extends Component {
               valueKey="id"
               titleKey="name"
               allTitle="All Airlines"
-              value=""
-              onChange={this.handleChange}
+              value={this.state.airline}
+              onSelect={this.airlineSelected}
+            />
+            flying in or out of
+            <Select
+              options={filteredAirports}
+              valueKey="code"
+              titleKey="name"
+              allTitle="All Airports"
+              value={this.state.airport}
+              onSelect={this.airportSelected}
             />
           </p>
           <Table 
             className="routes-table"
             columns={columns}
-            rows={this.state.filteredRoutes}
+            rows={filteredRoutes}
             format={this.formatValue}
             perPage={25}
           />
