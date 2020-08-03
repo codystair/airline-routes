@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import DATA from './data.js';
-import Table from './components/Table.js';
-import Select from './components/Select.js';
+import Table from './components/Table.js'
 
 class App extends Component {
   constructor(props) {
@@ -42,10 +41,9 @@ class App extends Component {
       {name: 'Destination Airport', property: 'dest'},
     ];
 
-    const filteredAirlines = DATA.airlines;
-    const filteredByAirline = DATA.routes.filter(route => {
-      return route.id === this.state.currentAirline}
-    );
+    const airlineOptions = DATA.airlines.map((airline) => {
+      return <option key={airline.id} value={airline.id}>{airline.name}</option>
+    });
 
     return (
       <div className="app">
@@ -55,16 +53,10 @@ class App extends Component {
         <section>
           <p>
             Show routes on 
-            <Select 
-              options={DATA.routes}
-              valueKey="id"
-              titleKey="name"
-              allTitle="All Airlines"
-              value={this.state.currentAirline}
-              onSelect={this.selectAirline}
-            />
-            flying in or out of 
-            <button>Show All Routes</button>
+            <select onChange={this.handleChange}>
+              <option value="all">All Airlines</option>
+              {airlineOptions}
+            </select>
           </p>
           <Table 
             className="routes-table"
