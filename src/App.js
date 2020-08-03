@@ -7,7 +7,9 @@ import Select from './components/Select.js';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {filteredRoutes: DATA.routes};
+    this.state = {
+      filteredRoutes: DATA.routes,
+    };
   }
   
   formatValue(property, value) {
@@ -20,7 +22,9 @@ class App extends Component {
 
   handleChange = (event) => {
     if (event.target.value === 'all') {
-      this.setState({ filteredRoutes: DATA.routes });
+      this.setState({
+        filteredRoutes: DATA.routes, 
+      });
       return;
     }
 

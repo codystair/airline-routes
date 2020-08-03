@@ -18,6 +18,10 @@ class Table extends Component {
     this.setState({currentPage: this.state.currentPage + 1});
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({currentPage: 0});
+  }
+
   render() {
     const start = this.state.currentPage * this.props.perPage;
 
@@ -26,18 +30,22 @@ class Table extends Component {
     });
 
     const bodyRows = this.props.rows.slice(start, start + this.props.perPage).map((row, i) => {
-      return <tr key={i}>
-               <td>{this.props.format('airline', row.airline)}</td>
-               <td>{this.props.format('src', row.src)}</td>
-               <td>{this.props.format('dest', row.dest)}</td>
-             </tr>
+      return (
+        <tr key={i}>
+          <td>{this.props.format('airline', row.airline)}</td>
+          <td>{this.props.format('src', row.src)}</td>
+          <td>{this.props.format('dest', row.dest)}</td>
+        </tr>
+      );
     });
 
     return (
       <div>
         <table className={this.props.className}>
           <thead>
-            {headers}
+            <tr>
+              {headers}
+            </tr>
           </thead>
           <tbody>
             {bodyRows}
