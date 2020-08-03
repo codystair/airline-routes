@@ -3,6 +3,7 @@ import './App.css';
 import DATA from './data.js';
 import Table from './components/Table.js';
 import Select from './components/Select.js';
+import Map from './components/Map.js';
 
 class App extends Component {
   constructor(props) {
@@ -79,6 +80,8 @@ class App extends Component {
           <h1 className="title">Airline Routes</h1>
         </header>
         <section>
+          <Map routes={filteredRoutes} />
+
           <p>
             Show routes on 
             <Select 
