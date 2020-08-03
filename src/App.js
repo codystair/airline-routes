@@ -59,8 +59,19 @@ class App extends Component {
       return this.routeHasCurrentAirline(route) && this.routeHasCurrentAirport(route);
     });
 
-    const filteredAirlines = DATA.airlines;
-    const filteredAirports = DATA.airports;
+    const filteredRoutesByAirline = DATA.routes.filter(this.routeHasCurrentAirline);
+    
+    const filteredRoutesByAirport = DATA.routes.filter(this.routeHasCurrentAirport);
+
+    const filteredAirlines = DATA.airlines.filter(airline => {
+      return filteredRoutesByAirport.some(route => route.airline === airline.id);
+    });
+
+    const filteredAirports = DATA.airports.filter(airport => {
+      return filteredRoutesByAirline.some(route => route.src === airport.code || route.dest === airport.code);
+    });
+
+    const allShowing = this.state.airline === 'all' && this.state.airport === 'all';
 
     return (
       <div className="app">
@@ -87,7 +98,7 @@ class App extends Component {
               value={this.state.airport}
               onSelect={this.airportSelected}
             />
-            <button onClick={this.clearFilters}>
+            <button onClick={this.clearFilters} disabled={allShowing}>
               Show All Routes
             </button>
           </p>

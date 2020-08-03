@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+  import React, { Component } from 'react';
 
 class Select extends Component {
   handleChange = (event) => {
@@ -7,7 +7,7 @@ class Select extends Component {
   }
 
   render() {
-    let options = this.props.options.map(option => {
+    let options = this.props.options.map( (option) => {
       const value = option[this.props.valueKey];
       return <option key={value} value={value}>
           { option[this.props.titleKey] }
