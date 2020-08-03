@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 
 class Select extends Component {
-
+  handleChange = (event) => {
+    event.preventDefault();
+    this.props.onSelect(event.target.value);
+  }
 
   render() {
+    let options = this.props.options.map(option => {
+      const value = option[this.props.valueKey];
+      return (
+        <option key={value} value={value}>
+          {option[this.props.titleKey]}
+        </option>
+      );
+    });
+
     return (
-      <select onChange = {this.props.onChange}>
+      <select value={this.props.value} onChange = {this.handleChange}>
         <option value="all">{this.props.allTitle}</option>
-        {this.props.options}
+        {options}
       </select>
     );
   }

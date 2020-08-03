@@ -7,7 +7,9 @@ import Select from './components/Select.js';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {filteredRoutes: DATA.routes};
+    this.state = {
+      currentAirline: 'all',
+    };
   }
   
   formatValue(property, value) {
@@ -18,18 +20,19 @@ class App extends Component {
     }
   }
 
-  handleChange = (event) => {
-    if (event.target.value === 'all') {
-      this.setState({ filteredRoutes: DATA.routes });
+  selectAirline = (id) => {
+    if (id === 'all') {
+      this.setState({ currentAirline: id });
       return;
     }
 
-    const airlineId = Number(event.target.value);
-    this.setState({
-      filteredRoutes: DATA.routes.filter(route => {
-        return route.airline === airlineId
-      }),
-    });
+    this.setState({ currentAirline: Number(id) });
+    // const airlineId = Number(event.target.value);
+    // this.setState({
+    //   filteredRoutes: DATA.routes.filter(route => {
+    //     return route.airline === airlineId
+    //   }),
+    // });
   }
 
   render() {
@@ -39,9 +42,10 @@ class App extends Component {
       {name: 'Destination Airport', property: 'dest'},
     ];
 
-    const filteredAirlines = DATA.airlines.map((airline) => {
-      return <option key={airline.id} value={airline.id}>{airline.name}</option>
-    });
+    const filteredAirlines = DATA.airlines;
+    const filteredByAirline = DATA.routes.filter(route => {
+      return route.id === this.state.currentAirline}
+    );
 
     return (
       <div className="app">
@@ -52,20 +56,23 @@ class App extends Component {
           <p>
             Show routes on 
             <Select 
-              options={filteredAirlines}
+              options={DATA.routes}
               valueKey="id"
               titleKey="name"
               allTitle="All Airlines"
-              value=""
-              onChange={this.handleChange}
+              value={this.state.currentAirline}
+              onSelect={this.selectAirline}
             />
+            flying in or out of 
+            <button>Show All Routes</button>
           </p>
           <Table 
             className="routes-table"
             columns={columns}
-            rows={this.state.filteredRoutes}
+            rows={filteredByAirline}
             format={this.formatValue}
             perPage={25}
+            startingPage={0}
           />
         </section>
       </div>
