@@ -52,10 +52,10 @@ class Table extends Component {
           </tbody>
         </table>
         <div className="pagination">
-          <p>Showing {start + 1}-{start + this.props.perPage} of {this.props.rows.length} routes.</p>
+          <p>Showing {start + 1}-{start + bodyRows.length} of {this.props.rows.length} routes.</p>
           <p>
             <button disabled={start === 0} onClick={this.prevPage}>Previous Page</button>
-            <button disabled={(start + this.props.perPage) === this.props.rows.length} onClick={this.nextPage}>Next Page</button>
+            <button disabled={(start + this.props.perPage) >= this.props.rows.length} onClick={this.nextPage}>Next Page</button>
           </p>
         </div>
       </div>
