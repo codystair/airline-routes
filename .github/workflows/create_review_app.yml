@@ -13,7 +13,7 @@ jobs:
       AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
       AWS_CF_DOMAIN: "${{ secrets.AWS_CF_DOMAIN }}"
       BRANCH_NAME: ${{ github.head_ref }}
-      SOURCE_DIR: "public"
+      SOURCE_DIR: "build"
       DEST_DIR: ${{ github.head_ref }}/${{ github.sha }}
 
     steps:
